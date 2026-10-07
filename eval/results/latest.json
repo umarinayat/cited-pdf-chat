@@ -1,0 +1,1327 @@
+{
+ "generated_at": "2026-10-07T10:57:12+00:00",
+ "mode": "llm",
+ "provider": "gemini",
+ "model": "gemini-3.5-flash-lite",
+ "embeddings": true,
+ "runs": [
+  {
+   "doc": "sample-library",
+   "doc_name": "Riverside Library Annual Report 2025",
+   "kind": "Digital PDF",
+   "summary": {
+    "questions": 23,
+    "correct": 23,
+    "accuracy": 100.0,
+    "answerable_accuracy": 100.0,
+    "refusal_accuracy": 100.0,
+    "retrieval_hit_rate": 100.0,
+    "citation_page_precision": 100.0,
+    "grounded_sentences": 100.0,
+    "avg_ms": 2389
+   },
+   "items": [
+    {
+     "q": "How many visits did the library have in 2025?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The library had 182,450 visits in 2025.",
+     "mode": "llm",
+     "ms": 24758,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "By what percentage did e-book and audiobook borrowing grow?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "E-book and audiobook borrowing grew by 19.2%.",
+     "mode": "llm",
+     "ms": 1302,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many registered members were there in 2024?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "There were 38,950 registered members in the year 2024.",
+     "mode": "llm",
+     "ms": 1030,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "Which service measure went down between 2024 and 2025?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Public computer sessions went down between the calendar years 2024 and 2025.",
+     "mode": "llm",
+     "ms": 1231,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 81,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "When did the Eastside Branch open?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Eastside Branch opened on 14 March 2025.",
+     "mode": "llm",
+     "ms": 1057,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How much did the Eastside Branch cost to build?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Eastside Branch building cost $3.1 million to build.",
+     "mode": "llm",
+     "ms": 1117,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 85,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "Who gave $450,000 toward the new branch?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Hartley Family Foundation gave a $450,000 gift toward the new Eastside Branch.",
+     "mode": "llm",
+     "ms": 1259,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 87,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What was the total revenue for the fiscal year?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The total revenue for the fiscal year that ended on 30 June 2025 was $2,949,000.",
+     "mode": "llm",
+     "ms": 1136,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      4
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 4,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How big was the surplus and what happened to it?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The year closed with a surplus of $47,000, which was moved into the building reserve.",
+     "mode": "llm",
+     "ms": 1034,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      4
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 4,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What share of spending went to staff?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Staff costs accounted for 65.9% of all spending.",
+     "mode": "llm",
+     "ms": 939,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      4
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 4,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How long can I keep a DVD?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "DVDs are loaned for a period of 7 days.",
+     "mode": "llm",
+     "ms": 1174,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many items can a member borrow at once?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Members are allowed to borrow up to 25 items at a time.",
+     "mode": "llm",
+     "ms": 1102,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What is the overdue fine for adult books?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Overdue fines on adult materials are $0.25 per day, capped at $5 per item.",
+     "mode": "llm",
+     "ms": 1439,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many children and teens took part in the Summer Reading Challenge?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Summer Reading Challenge drew 1,240 participants aged 4 to 17.",
+     "mode": "llm",
+     "ms": 1020,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      3
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 3,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What do I need before I can use the laser cutter?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Using the laser cutter requires a 45-minute safety induction.",
+     "mode": "llm",
+     "ms": 1081,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      3
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 3,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What are the Sunday opening hours at the Main Library?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Sunday opening hours at the Main Library are from 12:00 to 17:00.",
+     "mode": "llm",
+     "ms": 1193,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How much did the solar panels cut electricity costs?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Solar panels installed on the roof of the Main Library cut electricity costs by 18% during their first full year.",
+     "mode": "llm",
+     "ms": 1087,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many volunteers does the library have, and how many hours did they give?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The library has 214 volunteers who gave a total of 9,870 hours of their time.",
+     "mode": "llm",
+     "ms": 1182,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      1
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 1,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "图书馆提供哪些中文服务？",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "图书馆提供免费中文图书和每周六上午十点半的普通话故事时间。",
+     "mode": "llm",
+     "ms": 1172,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 86,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What is the director's annual salary?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 1029,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    },
+    {
+     "q": "How many parking spaces does the Eastside Branch have?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 799,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    },
+    {
+     "q": "Does the library offer passport services?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 962,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    },
+    {
+     "q": "What was the library's total revenue in 2023?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 6859,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    }
+   ]
+  },
+  {
+   "doc": "sample-library-scan",
+   "doc_name": "Riverside Library Annual Report 2025",
+   "kind": "Scanned copy (image-only, OCR)",
+   "summary": {
+    "questions": 23,
+    "correct": 23,
+    "accuracy": 100.0,
+    "answerable_accuracy": 100.0,
+    "refusal_accuracy": 100.0,
+    "retrieval_hit_rate": 100.0,
+    "citation_page_precision": 100.0,
+    "grounded_sentences": 100.0,
+    "avg_ms": 3254
+   },
+   "items": [
+    {
+     "q": "How many visits did the library have in 2025?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "In 2025, the library had 182,450 visits.",
+     "mode": "llm",
+     "ms": 7597,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      1
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 1,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "By what percentage did e-book and audiobook borrowing grow?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "E-book and audiobook borrowing grew by 19.2%.",
+     "mode": "llm",
+     "ms": 8285,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many registered members were there in 2024?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "There were 38,950 registered members in 2024.",
+     "mode": "llm",
+     "ms": 8682,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "Which service measure went down between 2024 and 2025?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Public computer sessions went down by 6.3% between 2024 and 2025.",
+     "mode": "llm",
+     "ms": 3360,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      2
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 2,
+       "score": 80,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "When did the Eastside Branch open?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Eastside Branch opened on 14 March 2025.",
+     "mode": "llm",
+     "ms": 1348,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How much did the Eastside Branch cost to build?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The 8,200-square-foot Eastside Branch building cost $3.1 million to build.",
+     "mode": "llm",
+     "ms": 1371,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 98,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "Who gave $450,000 toward the new branch?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Hartley Family Foundation provided a gift of $450,000 for the Eastside Branch.",
+     "mode": "llm",
+     "ms": 1164,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 96,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What was the total revenue for the fiscal year?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The total revenue for the fiscal year that ended on 30 June 2025 was $2,949,000.",
+     "mode": "llm",
+     "ms": 1338,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      4
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 4,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      },
+      {
+       "n": 2,
+       "page": 4,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      2,
+      2
+     ]
+    },
+    {
+     "q": "How big was the surplus and what happened to it?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The fiscal year closed with a surplus of $47,000. The Board of Trustees moved this surplus into the building reserve.",
+     "mode": "llm",
+     "ms": 1101,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      4
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 4,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      },
+      {
+       "n": 2,
+       "page": 4,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported",
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      2,
+      2
+     ]
+    },
+    {
+     "q": "What share of spending went to staff?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Staff costs made up 65.9% of all spending.",
+     "mode": "llm",
+     "ms": 1193,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      4
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 4,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How long can I keep a DVD?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "DVDs are loaned for 7 days.",
+     "mode": "llm",
+     "ms": 1220,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 80,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many items can a member borrow at once?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Members are allowed to borrow up to 25 items at a time.",
+     "mode": "llm",
+     "ms": 1186,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What is the overdue fine for adult books?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Overdue fines on adult materials are $0.25 per day, with a cap of $5 per item.",
+     "mode": "llm",
+     "ms": 1214,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many children and teens took part in the Summer Reading Challenge?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Summer Reading Challenge had 1,240 participants aged 4 to 17.",
+     "mode": "llm",
+     "ms": 1162,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      3
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 3,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What do I need before I can use the laser cutter?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Using the laser cutter requires a safety induction that lasts 45 minutes and is offered every Saturday morning.",
+     "mode": "llm",
+     "ms": 1119,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      3
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 3,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "What are the Sunday opening hours at the Main Library?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The Sunday opening hours at the Main Library are 12:00-17:00.",
+     "mode": "llm",
+     "ms": 1130,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 92,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How much did the solar panels cut electricity costs?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "Solar panels installed on the roof of the Main Library cut electricity costs by 18% in their first full year.",
+     "mode": "llm",
+     "ms": 1130,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      5
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 5,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "How many volunteers does the library have, and how many hours did they give?",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "The library has 214 volunteers who gave 9,870 hours of their time.",
+     "mode": "llm",
+     "ms": 1269,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      1
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 1,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      1,
+      1
+     ]
+    },
+    {
+     "q": "图书馆提供哪些中文服务？",
+     "answerable": true,
+     "correct": true,
+     "found": true,
+     "answer": "图书馆提供免费中文图书和每周六上午普通话故事时间。",
+     "mode": "llm",
+     "ms": 1198,
+     "note": null,
+     "retrieval_hit": true,
+     "cited_pages": [
+      6
+     ],
+     "citations": [
+      {
+       "n": 1,
+       "page": 6,
+       "score": 88,
+       "label": "high",
+       "status": "verified"
+      },
+      {
+       "n": 2,
+       "page": 6,
+       "score": 100,
+       "label": "high",
+       "status": "verified"
+      }
+     ],
+     "sentence_status": [
+      "supported"
+     ],
+     "citations_on_expected_pages": [
+      2,
+      2
+     ]
+    },
+    {
+     "q": "What is the director's annual salary?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 6758,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    },
+    {
+     "q": "How many parking spaces does the Eastside Branch have?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 7021,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    },
+    {
+     "q": "Does the library offer passport services?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 7793,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    },
+    {
+     "q": "What was the library's total revenue in 2023?",
+     "answerable": false,
+     "correct": true,
+     "found": false,
+     "answer": "",
+     "mode": "llm",
+     "ms": 7222,
+     "note": null,
+     "retrieval_hit": null,
+     "cited_pages": [],
+     "citations": [],
+     "sentence_status": [],
+     "citations_on_expected_pages": null
+    }
+   ]
+  }
+ ]
+}

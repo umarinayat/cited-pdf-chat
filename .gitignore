@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+backend/.venv/
+.pytest_cache/
+# Node
+frontend/node_modules/
+frontend/dist/
+# Runtime data and secrets
+data/
+.env
+*.log
+eval/results/run-*.json
+
+# Local tooling
+.claude/

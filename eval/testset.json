@@ -1,0 +1,29 @@
+{
+  "description": "Questions about the Riverside Library sample report. 'expect' strings must all appear in a correct answer (case-insensitive, commas in numbers ignored). 'pages' are 1-based pages where the answer is printed. Unanswerable questions check that the system says the document doesn't cover them instead of guessing.",
+  "docs": ["sample-library", "sample-library-scan"],
+  "questions": [
+    {"q": "How many visits did the library have in 2025?", "expect": ["182,450"], "pages": [1, 2]},
+    {"q": "By what percentage did e-book and audiobook borrowing grow?", "expect": ["19.2"], "pages": [2]},
+    {"q": "How many registered members were there in 2024?", "expect": ["38,950"], "pages": [2]},
+    {"q": "Which service measure went down between 2024 and 2025?", "expect": ["computer"], "pages": [2]},
+    {"q": "When did the Eastside Branch open?", "expect": ["14", "March"], "pages": [5]},
+    {"q": "How much did the Eastside Branch cost to build?", "expect": ["3.1 million"], "pages": [5]},
+    {"q": "Who gave $450,000 toward the new branch?", "expect": ["Hartley"], "pages": [5]},
+    {"q": "What was the total revenue for the fiscal year?", "expect": ["2,949,000"], "pages": [4]},
+    {"q": "How big was the surplus and what happened to it?", "expect": ["47,000", "reserve"], "pages": [4]},
+    {"q": "What share of spending went to staff?", "expect": ["65.9"], "pages": [4]},
+    {"q": "How long can I keep a DVD?", "expect": ["7 days"], "pages": [6]},
+    {"q": "How many items can a member borrow at once?", "expect": ["25"], "pages": [6]},
+    {"q": "What is the overdue fine for adult books?", "expect": ["0.25"], "pages": [6]},
+    {"q": "How many children and teens took part in the Summer Reading Challenge?", "expect": ["1,240"], "pages": [3]},
+    {"q": "What do I need before I can use the laser cutter?", "expect": ["safety induction"], "pages": [3]},
+    {"q": "What are the Sunday opening hours at the Main Library?", "expect": ["12:00", "17:00"], "pages": [5]},
+    {"q": "How much did the solar panels cut electricity costs?", "expect": ["18"], "pages": [5]},
+    {"q": "How many volunteers does the library have, and how many hours did they give?", "expect": ["214", "9,870"], "pages": [1, 2]},
+    {"q": "图书馆提供哪些中文服务？", "expect": ["中文图书"], "pages": [6]},
+    {"q": "What is the director's annual salary?", "answerable": false},
+    {"q": "How many parking spaces does the Eastside Branch have?", "answerable": false},
+    {"q": "Does the library offer passport services?", "answerable": false},
+    {"q": "What was the library's total revenue in 2023?", "answerable": false}
+  ]
+}
