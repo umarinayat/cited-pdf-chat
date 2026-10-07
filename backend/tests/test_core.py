@@ -107,6 +107,9 @@ def test_api_end_to_end():
     store.ingest(SAMPLE, "sample-library", "Riverside", "Digital PDF", sample=True)
     client = TestClient(app)
     assert client.get("/api/health").json()["mode"] == "extractive"
+    assert client.head("/api/health").status_code == 200
+    if (Path(__file__).resolve().parents[2] / "frontend" / "dist" / "index.html").exists():
+        assert client.head("/").status_code == 200  # link previews and uptime checks use HEAD
     r = client.post("/api/docs/sample-library/ask", json={"question": "How long can I keep a DVD?"}).json()
     assert r["found"] and "7 days" in r["sentences"][0]["text"] and r["citations"][0]["rects"]
     assert client.get("/api/docs/sample-library/numbers").json()

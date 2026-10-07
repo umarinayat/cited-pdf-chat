@@ -4,6 +4,9 @@ Ask questions about a PDF, including a scanned one, and get answers you can chec
 text it came from, and that text is highlighted on the page. The model has to quote its source, and every quote is
 matched against the PDF's own words, so a made-up citation is flagged instead of shown.
 
+**Live demo: https://cited-pdf-chat.onrender.com** (free instance: after a quiet spell the first visit takes about a
+minute to wake up).
+
 ![Answer with a highlighted citation](docs/screenshots/01-answer-with-citation.png)
 
 ## What it does
