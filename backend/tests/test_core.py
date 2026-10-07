@@ -150,3 +150,28 @@ def test_prune_uploads_keeps_samples():
     assert store.prune_uploads(2) == 1
     assert not old.exists() and new.exists() and sample.exists()
     assert store.prune_uploads(0) == 0
+
+
+def test_uploads_without_ocr(monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from app import config, ingest
+    from app.main import app
+
+    monkeypatch.setattr(config, "OCR_UPLOADS", False)
+    monkeypatch.setattr(ingest, "ocr_page", lambda page: pytest.fail("OCR ran with OCR_UPLOADS off"))
+    client = TestClient(app)
+    assert client.get("/api/health").json()["ocr_uploads"] is False
+
+    scan = SAMPLE.with_name("riverside-library-2025-scanned.pdf").read_bytes()
+    r = client.post("/api/docs", files={"file": ("scan.pdf", scan, "application/pdf")})
+    assert r.status_code == 400 and "scanned PDF" in r.json()["detail"]
+
+    mixed = pymupdf.open()
+    mixed.new_page().insert_text((72, 72), "Opening hours are 9:00 to 17:00 on weekdays, closed on Sundays.", fontsize=12)
+    with pymupdf.open(stream=scan, filetype="pdf") as src:
+        mixed.insert_pdf(src, from_page=0, to_page=0)  # one image-only page
+    r = client.post("/api/docs", files={"file": ("mixed.pdf", mixed.tobytes(), "application/pdf")})
+    assert r.status_code == 200, r.text
+    meta = r.json()
+    assert meta["pages"] == 2 and meta["skipped_pages"] == 1 and meta["ocr_pages"] == 0 and meta["chunks"] >= 1

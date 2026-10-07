@@ -35,6 +35,8 @@ RATE_LIMIT_PER_HOUR = int(os.getenv("RATE_LIMIT_PER_HOUR", "0"))  # 0 = off
 DAILY_LLM_LIMIT = int(os.getenv("DAILY_LLM_LIMIT", "0"))
 # Uploaded PDFs are deleted after this many hours (samples are kept). 0 = keep them.
 UPLOAD_TTL_HOURS = float(os.getenv("UPLOAD_TTL_HOURS", "0"))
+# OCR for uploaded scans peaks around 1 GB of memory; 0 skips scanned pages of uploads (samples are still OCR'd).
+OCR_UPLOADS = os.getenv("OCR_UPLOADS", "1") == "1"
 
 TOP_K = int(os.getenv("TOP_K", "6"))
 LLM_TIMEOUT_S = int(os.getenv("LLM_TIMEOUT_S", "45"))

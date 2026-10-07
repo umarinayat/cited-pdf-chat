@@ -7,6 +7,7 @@ export interface DocMeta {
   sample: boolean
   pages: number
   ocr_pages: number
+  skipped_pages?: number
   chunks: number
   numbers: number
   embeddings: boolean
@@ -72,6 +73,7 @@ export interface Health {
   max_upload_mb: number
   max_pages: number
   upload_ttl_hours: number
+  ocr_uploads: boolean
 }
 
 export interface EvalItem {

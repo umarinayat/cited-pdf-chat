@@ -115,7 +115,12 @@ def ocr_words(lines: list[tuple], names: set[str]) -> list[dict]:
     return words
 
 
-def extract_pages(pdf_path: str, max_pages: int | None = None) -> list[dict]:
+def needs_ocr(page) -> bool:
+    return len(page.get_text("text").strip()) < OCR_MIN_CHARS
+
+
+def extract_pages(pdf_path: str, max_pages: int | None = None, ocr: bool = True) -> list[dict]:
+    """Words with boxes per page. Pages without a text layer are OCR'd, or left empty (source "none") if ocr=False."""
     doc = fitz.open(pdf_path)
     pages, scanned = [], {}
     for pno, page in enumerate(doc):
@@ -126,7 +131,8 @@ def extract_pages(pdf_path: str, max_pages: int | None = None) -> list[dict]:
              "blk": int(w[5]), "ln": int(w[6])}
             for w in page.get_text("words")
         ]
-        if sum(len(w["t"]) for w in words) < OCR_MIN_CHARS:
+        no_text = sum(len(w["t"]) for w in words) < OCR_MIN_CHARS
+        if no_text and ocr:
             lines = ocr_page(page)
             if lines:
                 scanned[pno] = lines
@@ -134,7 +140,7 @@ def extract_pages(pdf_path: str, max_pages: int | None = None) -> list[dict]:
             "page": pno,
             "width": round(page.rect.width, 2),
             "height": round(page.rect.height, 2),
-            "source": "ocr" if pno in scanned else "text",
+            "source": "ocr" if pno in scanned else "none" if no_text and not ocr else "text",
             "words": words,
         })
     doc.close()

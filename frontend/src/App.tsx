@@ -126,6 +126,10 @@ export default function App() {
       saveUploads(next)
       setDocId(meta.id)
       setTab('ask')
+      if (meta.skipped_pages)
+        setNotice(
+          `${meta.skipped_pages} scanned page${meta.skipped_pages > 1 ? 's were' : ' was'} skipped: reading your own scans (OCR) is off on this free demo.`,
+        )
     } catch (e) {
       setNotice((e as Error).message)
     } finally {

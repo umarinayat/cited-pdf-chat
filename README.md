@@ -102,10 +102,12 @@ docker run -p 8000:8000 -e GEMINI_API_KEY=... -e RATE_LIMIT_PER_HOUR=30 cited-pd
 It honours `$PORT`, so it runs as-is on Render, Railway, Fly.io or a Hugging Face Docker Space. The sample documents
 and models are prepared during the build, so the first visitor doesn't wait.
 
-`deploy/huggingface/` is the Hugging Face Space: a `Dockerfile` that builds this repository straight from GitHub,
-with the public-demo limits switched on (30 questions an hour per visitor, 300 model answers a day, uploads deleted
-after 24 hours). Add `GEMINI_API_KEY` as a secret in the Space settings; "Factory rebuild" deploys the latest
-commit.
+The live demo runs on Render's free plan from `render.yaml` (a Blueprint): 30 questions an hour per visitor, 300
+model answers a day, uploads deleted after 24 hours, and OCR off for uploads because the free instance has 512 MB
+(the scanned sample is OCR'd during the build). It sleeps after 15 minutes without visitors, so the first visit then
+takes about a minute. Memory measured locally: about 320 MB running, about 1 GB peak while OCR'ing a scan.
+
+`deploy/huggingface/` builds the same app as a Hugging Face Docker Space (Docker Spaces need a paid plan).
 
 ## Configuration
 
@@ -121,6 +123,7 @@ commit.
 | `RATE_LIMIT_PER_HOUR` | `0` (off) | questions + uploads per IP, for a public demo |
 | `DAILY_LLM_LIMIT` | `0` (off) | model calls per day across all visitors; past it, answers fall back to search-only |
 | `UPLOAD_TTL_HOURS` | `0` (keep) | uploaded PDFs are deleted after this many hours |
+| `OCR_UPLOADS` | `1` | `0` skips scanned pages of uploads, for hosts with 512 MB (OCR of a scan peaks near 1 GB) |
 
 ## Limits
 

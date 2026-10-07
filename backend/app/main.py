@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 
 from . import config, llm, store
 from .answer import answer_question
+from .ingest import needs_ocr
 from .retrieval import embedder
 
 
@@ -76,6 +77,7 @@ def health():
         "max_upload_mb": config.MAX_UPLOAD_MB,
         "max_pages": config.MAX_PAGES,
         "upload_ttl_hours": config.UPLOAD_TTL_HOURS,
+        "ocr_uploads": config.OCR_UPLOADS,
     }
 
 
@@ -130,12 +132,16 @@ async def upload(request: Request, file: UploadFile = File(...)):
                     raise HTTPException(400, "This PDF is password-protected.")
                 if pdf.page_count == 0:
                     raise HTTPException(400, "This PDF has no pages.")
+                if not config.OCR_UPLOADS and all(needs_ocr(p) for p in pdf.pages(0, min(pdf.page_count, config.MAX_PAGES))):
+                    raise HTTPException(400, "This looks like a scanned PDF. Reading your own scans (OCR) needs more "
+                                             "memory than this free demo has. Try the scanned sample, or run the app "
+                                             "locally.")
         except HTTPException:
             raise
         except Exception:
             raise HTTPException(400, "This PDF couldn't be read.")
         name = Path(file.filename or "document.pdf").stem[:80] or "document"
-        doc = store.ingest(path, "u-" + uuid.uuid4().hex[:12], name)
+        doc = store.ingest(path, "u-" + uuid.uuid4().hex[:12], name, ocr=config.OCR_UPLOADS)
     return doc.meta
 
 

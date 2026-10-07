@@ -1,0 +1,26 @@
+# Render Blueprint for the public demo: one free Docker web service.
+# Render asks for GEMINI_API_KEY when the Blueprint is created (sync: false keeps it out of this file).
+services:
+  - type: web
+    name: cited-pdf-chat
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      # Public-demo limits
+      - key: RATE_LIMIT_PER_HOUR
+        value: "30"
+      - key: DAILY_LLM_LIMIT
+        value: "300"
+      - key: UPLOAD_TTL_HOURS
+        value: "24"
+      - key: MAX_PAGES
+        value: "20"
+      # The free instance has 512 MB; OCR of an uploaded scan peaks near 1 GB. The scanned sample is OCR'd at build time.
+      - key: OCR_UPLOADS
+        value: "0"

@@ -42,9 +42,10 @@ _cache: dict[str, Doc] = {}
 _lock = threading.Lock()
 
 
-def ingest(pdf_path: Path, doc_id: str, name: str, kind: str = "Uploaded", sample: bool = False) -> Doc:
+def ingest(pdf_path: Path, doc_id: str, name: str, kind: str = "Uploaded", sample: bool = False,
+           ocr: bool = True) -> Doc:
     t0 = time.perf_counter()
-    pages = extract_pages(str(pdf_path), max_pages=config.MAX_PAGES)
+    pages = extract_pages(str(pdf_path), max_pages=config.MAX_PAGES, ocr=ocr)
     chunks = build_chunks(pages)
     numbers = extract_numbers(pages)
     vectors = embedder.passages([c["text"] for c in chunks])
@@ -55,6 +56,7 @@ def ingest(pdf_path: Path, doc_id: str, name: str, kind: str = "Uploaded", sampl
     meta = {
         "id": doc_id, "name": name, "kind": kind, "sample": sample,
         "pages": len(pages), "ocr_pages": sum(p["source"] == "ocr" for p in pages),
+        "skipped_pages": sum(p["source"] == "none" for p in pages),
         "chunks": len(chunks), "numbers": len(numbers),
         "embeddings": vectors is not None, "embed_model": config.EMBED_MODEL if vectors is not None else None,
         "ingest_version": INGEST_VERSION, "ingest_ms": int((time.perf_counter() - t0) * 1000),
