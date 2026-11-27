@@ -25,6 +25,16 @@ function saveUploads(list: { id: string; name: string }[]) {
   }
 }
 
+const PRIVACY_KEY = 'cpc-upload-privacy-ok'
+
+function privacyAccepted(): boolean {
+  try {
+    return localStorage.getItem(PRIVACY_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
 const params = new URLSearchParams(window.location.search)
 
 export default function App() {
@@ -42,7 +52,22 @@ export default function App() {
   const [split, setSplit] = useState(42)
   const [uploading, setUploading] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
+  const [privacyAsk, setPrivacyAsk] = useState(false)
   const fileInput = useRef<HTMLInputElement>(null)
+  // On the public demo (uploads are auto-deleted), say once that uploads aren't private before the file picker opens.
+  const startUpload = () => {
+    if (health?.upload_ttl_hours && !privacyAccepted()) setPrivacyAsk(true)
+    else fileInput.current?.click()
+  }
+  const acceptPrivacy = () => {
+    try {
+      localStorage.setItem(PRIVACY_KEY, '1')
+    } catch {
+      /* private mode: ask again next time */
+    }
+    setPrivacyAsk(false)
+    fileInput.current?.click()
+  }
   const main = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -199,7 +224,7 @@ export default function App() {
             }}
           />
           <button
-            onClick={() => fileInput.current?.click()}
+            onClick={startUpload}
             disabled={uploading}
             className="shrink-0 rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-slate-700 disabled:bg-slate-400"
           >
@@ -215,6 +240,32 @@ export default function App() {
           <button onClick={() => setNotice(null)} className="text-amber-700 hover:text-amber-900" aria-label="Dismiss">
             ✕
           </button>
+        </div>
+      )}
+      {privacyAsk && (
+        <div
+          role="dialog"
+          aria-label="Before you upload"
+          className="flex flex-wrap items-center justify-between gap-3 border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-900"
+        >
+          <span>
+            <strong>This is a public demo.</strong> Please don't upload private or confidential documents: anyone with
+            a document's link can open it until it is deleted after {health?.upload_ttl_hours} hours.
+          </span>
+          <span className="flex shrink-0 gap-2">
+            <button
+              onClick={acceptPrivacy}
+              className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700"
+            >
+              Choose a PDF
+            </button>
+            <button
+              onClick={() => setPrivacyAsk(false)}
+              className="rounded-lg px-3 py-1.5 text-sm font-medium text-amber-800 hover:bg-amber-100"
+            >
+              Cancel
+            </button>
+          </span>
         </div>
       )}
       {uploading && (
