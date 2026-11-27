@@ -30,7 +30,13 @@ EMBED_MODEL = os.getenv("EMBED_MODEL", "BAAI/bge-small-en-v1.5")
 
 MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", "15"))
 MAX_PAGES = int(os.getenv("MAX_PAGES", "40"))
-RATE_LIMIT_PER_HOUR = int(os.getenv("RATE_LIMIT_PER_HOUR", "0"))  # 0 = off
+RATE_LIMIT_PER_HOUR = int(os.getenv("RATE_LIMIT_PER_HOUR", "0"))  # per visitor; 0 = off
+# Uploads per hour across all visitors (a visitor's IP can be faked, so this caps the total). 0 = no cap.
+UPLOADS_PER_HOUR = int(os.getenv("UPLOADS_PER_HOUR", "0"))
+# Uploaded documents kept in memory at once; older ones are reloaded from disk when asked about.
+MAX_CACHED_UPLOADS = int(os.getenv("MAX_CACHED_UPLOADS", "20"))
+# Seconds an upload waits for the one before it to finish reading before it is turned away.
+UPLOAD_QUEUE_WAIT_S = int(os.getenv("UPLOAD_QUEUE_WAIT_S", "30"))
 # Model calls per UTC day across all visitors; past it, answers fall back to no-key mode. 0 = no cap.
 DAILY_LLM_LIMIT = int(os.getenv("DAILY_LLM_LIMIT", "0"))
 # Uploaded PDFs are deleted after this many hours (samples are kept). 0 = keep them.

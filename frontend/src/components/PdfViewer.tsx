@@ -36,6 +36,8 @@ export default function PdfViewer({ url, highlights, focus }: Props) {
     setPdf(null)
     setSizes([])
     setError(null)
+    // Uploaded PDFs are untrusted. pdfjs-dist 6.2.108+ fixes the font-code bug (GHSA-hq66-cqwq-w95j) and this viewer
+    // never runs a PDF's own scripts (no scripting manager is set up).
     const task = pdfjs.getDocument({ url })
     task.promise
       .then(async (doc) => {

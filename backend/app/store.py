@@ -68,9 +68,18 @@ def ingest(pdf_path: Path, doc_id: str, name: str, kind: str = "Uploaded", sampl
     if vectors is not None:
         np.save(folder / "vectors.npy", vectors)
     doc = Doc(meta, pages, chunks, numbers, vectors)
-    with _lock:
-        _cache[doc_id] = doc
+    _remember(doc_id, doc)
     return doc
+
+
+def _remember(doc_id: str, doc: Doc) -> None:
+    """Cache a document. Only the most recent uploads stay in memory, so many uploads can't use it all up."""
+    with _lock:
+        _cache.pop(doc_id, None)
+        _cache[doc_id] = doc  # dicts keep insertion order: the newest is last
+        uploads = [k for k in _cache if k.startswith("u-")]
+        for k in uploads[: max(0, len(uploads) - config.MAX_CACHED_UPLOADS)]:
+            _cache.pop(k, None)
 
 
 def get(doc_id: str) -> Doc | None:
@@ -90,8 +99,7 @@ def get(doc_id: str) -> Doc | None:
         if vectors is not None:
             np.save(vec_file, vectors)
     doc = Doc(data["meta"], data["pages"], data["chunks"], data["numbers"], vectors)
-    with _lock:
-        _cache[doc_id] = doc
+    _remember(doc_id, doc)
     return doc
 
 

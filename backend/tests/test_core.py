@@ -178,3 +178,70 @@ def test_uploads_without_ocr(monkeypatch):
     assert r.status_code == 200, r.text
     meta = r.json()
     assert meta["pages"] == 2 and meta["skipped_pages"] == 1 and meta["ocr_pages"] == 0 and meta["chunks"] >= 1
+
+
+def test_security_guards(monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from app import config, main
+    from app.main import app
+
+    store.ingest(SAMPLE, "sample-library", "Riverside", "Digital PDF", sample=True)
+    client = TestClient(app)
+
+    # no auto-generated API docs on the public demo
+    for path in ("/docs", "/redoc", "/openapi.json"):
+        r = client.get(path)
+        assert "swagger" not in r.text.lower() and '"openapi"' not in r.text
+
+    # security headers, and uploaded PDFs never render on the site itself
+    r = client.get("/api/docs/sample-library/file")
+    assert r.headers["x-content-type-options"] == "nosniff" and r.headers["x-frame-options"] == "DENY"
+    assert r.headers["content-disposition"].startswith("attachment") and r.headers["content-security-policy"] == "sandbox"
+
+    # oversized bodies are refused before they are read
+    big = client.post("/api/docs", content=b"x", headers={"content-length": str(200 * 1024 * 1024),
+                                                           "content-type": "application/pdf"})
+    assert big.status_code == 413
+    assert client.post("/api/docs/sample-library/ask", content=b"{" + b" " * 20000 + b"}",
+                       headers={"content-type": "application/json"}).status_code == 413
+
+    # Cloudflare's header wins over a made-up X-Forwarded-For
+    monkeypatch.setattr(config, "RATE_LIMIT_PER_HOUR", 2)
+    monkeypatch.setattr(main, "_hits", __import__("collections").defaultdict(__import__("collections").deque))
+    q = {"question": "How long can I keep a DVD?"}
+    codes = [client.post("/api/docs/sample-library/ask", json=q,
+                         headers={"true-client-ip": "203.0.113.7", "x-forwarded-for": f"10.0.0.{i}"}).status_code
+             for i in range(3)]
+    assert codes == [200, 200, 429]
+
+    # a cap on uploads across all visitors, whatever IP they claim
+    monkeypatch.setattr(config, "RATE_LIMIT_PER_HOUR", 0)
+    monkeypatch.setattr(config, "UPLOADS_PER_HOUR", 1)
+    monkeypatch.setattr(main, "_uploads", __import__("collections").deque())
+    tiny = pymupdf.open()
+    tiny.new_page().insert_text((72, 72), "Total: $10.", fontsize=12)
+    pdf = tiny.tobytes()
+    first = client.post("/api/docs", files={"file": ("<b>x</b>.pdf", pdf, "application/pdf")},
+                        headers={"x-forwarded-for": "198.51.100.1"})
+    assert first.status_code == 200 and "<" not in first.json()["name"]
+    second = client.post("/api/docs", files={"file": ("y.pdf", pdf, "application/pdf")},
+                         headers={"x-forwarded-for": "198.51.100.2"})
+    assert second.status_code == 429
+
+
+def test_upload_cache_is_capped(monkeypatch):
+    from app import config
+
+    monkeypatch.setattr(config, "MAX_CACHED_UPLOADS", 2)
+    tiny = pymupdf.open()
+    tiny.new_page().insert_text((72, 72), "Hello.", fontsize=12)
+    path = store.DOCS.parent / "cap-test.pdf"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(tiny.tobytes())
+    ids = [f"u-cap00000000{i}" for i in range(4)]
+    for i in ids:
+        store.ingest(path, i, "cap", ocr=False)
+    cached = [k for k in store._cache if k.startswith("u-cap")]
+    assert cached == ids[-2:]
+    assert store.get(ids[0]) is not None  # evicted ones still load from disk

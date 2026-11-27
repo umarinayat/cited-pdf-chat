@@ -17,6 +17,9 @@ services:
         value: "30"
       - key: DAILY_LLM_LIMIT
         value: "300"
+      # Uploads per hour across all visitors (a visitor's IP can be faked)
+      - key: UPLOADS_PER_HOUR
+        value: "40"
       - key: UPLOAD_TTL_HOURS
         value: "24"
       - key: MAX_PAGES

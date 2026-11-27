@@ -125,6 +125,8 @@ takes about a minute. Memory measured locally: about 320 MB running, about 1 GB 
 | `MAX_UPLOAD_MB` / `MAX_PAGES` | `15` / `40` | upload limits |
 | `RATE_LIMIT_PER_HOUR` | `0` (off) | questions + uploads per IP, for a public demo |
 | `DAILY_LLM_LIMIT` | `0` (off) | model calls per day across all visitors; past it, answers fall back to search-only |
+| `UPLOADS_PER_HOUR` | `0` (off) | uploads per hour across all visitors, since a visitor's IP can be faked |
+| `MAX_CACHED_UPLOADS` | `20` | uploaded documents kept in memory; older ones reload from disk |
 | `UPLOAD_TTL_HOURS` | `0` (keep) | uploaded PDFs are deleted after this many hours |
 | `OCR_UPLOADS` | `1` | `0` skips scanned pages of uploads, for hosts with 512 MB (OCR of a scan peaks near 1 GB) |
 

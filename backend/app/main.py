@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import tempfile
 import threading
 import time
@@ -38,25 +39,81 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="Cited PDF Chat", lifespan=lifespan)
+# No auto-generated API docs on a public demo: /docs, /redoc and /openapi.json are switched off.
+app = FastAPI(title="Cited PDF Chat", lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
+
+# ---- request size and security headers
+
+MAX_JSON_BYTES = 16 * 1024
+_UPLOAD_PATH = "/api/docs"
+
+
+@app.middleware("http")
+async def guard(request: Request, call_next):
+    # Turn big bodies away before they are read or saved to disk.
+    if request.method == "POST":
+        limit = config.MAX_UPLOAD_MB * 1024 * 1024 + 64 * 1024 if request.url.path == _UPLOAD_PATH else MAX_JSON_BYTES
+        length = request.headers.get("content-length")
+        if length is None:
+            return JSONResponse({"detail": "Content-Length is required."}, status_code=411)
+        if not length.isdigit() or int(length) > limit:
+            return JSONResponse({"detail": f"PDFs up to {config.MAX_UPLOAD_MB} MB, please." if request.url.path == _UPLOAD_PATH
+                                 else "Request too large."}, status_code=413)
+    response = await call_next(request)
+    h = response.headers
+    h.setdefault("X-Content-Type-Options", "nosniff")
+    h.setdefault("X-Frame-Options", "DENY")
+    h.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    h.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    if request.url.path.startswith("/api/"):
+        h.setdefault("Cache-Control", "no-store")
+    return response
+
+
+# ---- rate limits
 
 _hits: dict[str, deque] = defaultdict(deque)
+_uploads: deque = deque()
 _hits_lock = threading.Lock()
+_ingest_lock = threading.Lock()
+
+
+def client_ip(request: Request) -> str:
+    """The visitor's IP. Render sits behind Cloudflare, which sets True-Client-IP / CF-Connecting-IP itself.
+    X-Forwarded-For is only a fallback: its first entry comes from the visitor and can be made up, which is
+    why uploads also have a cap across all visitors (UPLOADS_PER_HOUR) and model calls a daily cap."""
+    for name in ("true-client-ip", "cf-connecting-ip"):
+        value = request.headers.get(name, "").strip()
+        if value:
+            return value[:64]
+    forwarded = request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+    return forwarded[:64] or (request.client.host if request.client else "?")
+
+
+def _over(q: deque, limit: int, now: float) -> bool:
+    while q and now - q[0] > 3600:
+        q.popleft()
+    if len(q) >= limit:
+        return True
+    q.append(now)
+    return False
 
 
 def _rate_limited(request: Request) -> bool:
     if config.RATE_LIMIT_PER_HOUR <= 0:
         return False
-    ip = request.headers.get("x-forwarded-for", "").split(",")[0].strip() or (request.client.host if request.client else "?")
-    now = time.time()
     with _hits_lock:
-        q = _hits[ip]
-        while q and now - q[0] > 3600:
-            q.popleft()
-        if len(q) >= config.RATE_LIMIT_PER_HOUR:
-            return True
-        q.append(now)
-    return False
+        if len(_hits) > 50_000:  # forget idle visitors so made-up IPs can't grow this forever
+            for key in [k for k, q in _hits.items() if not q or time.time() - q[-1] > 3600]:
+                del _hits[key]
+        return _over(_hits[client_ip(request)], config.RATE_LIMIT_PER_HOUR, time.time())
+
+
+def _uploads_full() -> bool:
+    if config.UPLOADS_PER_HOUR <= 0:
+        return False
+    with _hits_lock:
+        return _over(_uploads, config.UPLOADS_PER_HOUR, time.time())
 
 
 def _doc_or_404(doc_id: str) -> store.Doc:
@@ -94,7 +151,13 @@ def doc_meta(doc_id: str):
 @app.get("/api/docs/{doc_id}/file")
 def doc_file(doc_id: str):
     doc = _doc_or_404(doc_id)
-    return FileResponse(doc.pdf, media_type="application/pdf", headers={"Cache-Control": "private, max-age=3600"})
+    # The viewer fetches this with PDF.js. Opened directly, an uploaded PDF downloads instead of rendering on
+    # this site, and the sandbox stops any script in it from running with this site's origin.
+    return FileResponse(doc.pdf, media_type="application/pdf", headers={
+        "Cache-Control": "private, max-age=3600",
+        "Content-Disposition": 'attachment; filename="document.pdf"',
+        "Content-Security-Policy": "sandbox",
+    })
 
 
 @app.get("/api/docs/{doc_id}/numbers")
@@ -114,34 +177,53 @@ def ask(doc_id: str, body: Ask, request: Request):
     return answer_question(doc, body.question.strip())
 
 
+_SAFE_NAME = re.compile(r"[^\w .,()&'+-]+")
+
+
+def _clean_name(filename: str | None) -> str:
+    name = _SAFE_NAME.sub(" ", Path(filename or "document.pdf").stem)
+    return " ".join(name.split())[:80] or "document"
+
+
 @app.post("/api/docs")
-async def upload(request: Request, file: UploadFile = File(...)):
+def upload(request: Request, file: UploadFile = File(...)):
+    # A plain (sync) handler: FastAPI runs it in a worker thread, so reading a PDF never blocks other visitors.
     if _rate_limited(request):
         raise HTTPException(429, "Too many uploads from this address. Try again in an hour.")
-    data = await file.read(config.MAX_UPLOAD_MB * 1024 * 1024 + 1)
+    if _uploads_full():
+        raise HTTPException(429, "This free demo has had a lot of uploads this hour. Try a sample, or come back later.")
+    data = file.file.read(config.MAX_UPLOAD_MB * 1024 * 1024 + 1)
     if len(data) > config.MAX_UPLOAD_MB * 1024 * 1024:
         raise HTTPException(413, f"PDFs up to {config.MAX_UPLOAD_MB} MB, please.")
     if not data.startswith(b"%PDF"):
         raise HTTPException(400, "That file isn't a PDF.")
-    with tempfile.TemporaryDirectory() as tmp:
-        path = Path(tmp) / "upload.pdf"
-        path.write_bytes(data)
-        try:
-            with pymupdf.open(path) as pdf:
-                if pdf.needs_pass:
-                    raise HTTPException(400, "This PDF is password-protected.")
-                if pdf.page_count == 0:
-                    raise HTTPException(400, "This PDF has no pages.")
-                if not config.OCR_UPLOADS and all(needs_ocr(p) for p in pdf.pages(0, min(pdf.page_count, config.MAX_PAGES))):
-                    raise HTTPException(400, "This looks like a scanned PDF. Reading your own scans (OCR) needs more "
-                                             "memory than this free demo has. Try the scanned sample, or run the app "
-                                             "locally.")
-        except HTTPException:
-            raise
-        except Exception:
-            raise HTTPException(400, "This PDF couldn't be read.")
-        name = Path(file.filename or "document.pdf").stem[:80] or "document"
-        doc = store.ingest(path, "u-" + uuid.uuid4().hex[:12], name, ocr=config.OCR_UPLOADS)
+    # One PDF is read at a time, so a burst of uploads can't use up the server's memory.
+    if not _ingest_lock.acquire(timeout=config.UPLOAD_QUEUE_WAIT_S):
+        raise HTTPException(503, "Busy reading another PDF. Try again in a minute.")
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "upload.pdf"
+            path.write_bytes(data)
+            try:
+                with pymupdf.open(path) as pdf:
+                    if pdf.needs_pass:
+                        raise HTTPException(400, "This PDF is password-protected.")
+                    if pdf.page_count == 0:
+                        raise HTTPException(400, "This PDF has no pages.")
+                    if not config.OCR_UPLOADS and all(needs_ocr(p) for p in pdf.pages(0, min(pdf.page_count, config.MAX_PAGES))):
+                        raise HTTPException(400, "This looks like a scanned PDF. Reading your own scans (OCR) needs more "
+                                                 "memory than this free demo has. Try the scanned sample, or run the app "
+                                                 "locally.")
+            except HTTPException:
+                raise
+            except Exception:
+                raise HTTPException(400, "This PDF couldn't be read.")
+            try:
+                doc = store.ingest(path, "u-" + uuid.uuid4().hex[:12], _clean_name(file.filename), ocr=config.OCR_UPLOADS)
+            except Exception:
+                raise HTTPException(400, "This PDF couldn't be read.")
+    finally:
+        _ingest_lock.release()
     return doc.meta
 
 
